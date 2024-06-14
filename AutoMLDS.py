@@ -58,54 +58,58 @@ if (file and not data_choice) or (not file and data_choice):
         )
 
         st.dataframe(df)
-    with st.expander("🧑‍🔬 Important settings!"):
+   
 
-        model_type = st.radio(
-            "",
-            ["Classification", "Regression"],
-            captions=[
-                "for predicting categorical values (ex. yes,no)",
-                "for predicting continuous values (ex. price)",
-            ],
-        )
-        if model_type == "Regression":
-            st.session_state.classification = False
-        if model_type == "Classification":
-            st.session_state.classification = True
+    model_type = st.radio(
+        "",
+        ["Classification", "Regression"],
+        captions=[
+            "for predicting categorical values (ex. yes,no)",
+            "for predicting continuous values (ex. price)",
+        ],
+    )
+    if model_type == "Regression":
+        st.session_state.classification = False
+    if model_type == "Classification":
+        st.session_state.classification = True
 
-        # dropping columns option
-        selectedNA_columns = st.multiselect(
-            "Select the Columns you want to drop", df.columns.tolist()
-        )
-        if selectedNA_columns:
-            df = df.drop(selectedNA_columns, axis=1)
+    # dropping columns option
+    
+    selectedNA_columns = st.multiselect(
+        "Select the Columns you want to drop", df.columns.tolist()
+    )
+    
+   
+    if selectedNA_columns:
+     df = df.drop(selectedNA_columns, axis=1)
+        
 
-        # Target column
+    # Target column
 
-        st.info(
-            "it's important to choose the feature that you want to predict correctly."
-        )
-        st.session_state.chosen_target = st.selectbox(
-            "Choose the Target Column",
-            df.columns,
-            index=(
-                df.columns.get_loc(st.session_state.chosen_target)
-                if st.session_state.chosen_target in df.columns
-                else 0
-            ),
-        )
-        st.write("after converting the non-numerical to numerical")
-        st.write("let's show the first 5 rows of the updated dataset")
-        objects_left=df.select_dtypes(include=['object']).columns.tolist()
-        le = LabelEncoder()
-        for col in objects_left:
-            
-            df[col] = le.fit_transform(df[col])
-         
-        st.dataframe(df.head())
+    st.info(
+        "it's important to choose the feature that you want to predict correctly."
+    )
+    st.session_state.chosen_target = st.selectbox(
+        "Choose the Target Column",
+        df.columns,
+        index=(
+            df.columns.get_loc(st.session_state.chosen_target)
+            if st.session_state.chosen_target in df.columns
+            else 0
+        ),
+    )
+    st.write("after converting the non-numerical to numerical")
+    st.write("let's show the first 5 rows of the updated dataset")
+    objects_left=df.select_dtypes(include=['object']).columns.tolist()
+    le = LabelEncoder()
+    for col in objects_left:
+        
+        df[col] = le.fit_transform(df[col])
+        
+    st.dataframe(df.head())
             
                 
         
-        df.to_csv("dataset.csv", index=None)
+    df.to_csv("dataset.csv", index=None)
 else:
     st.warning("Please choose only one")

@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib as plt
 from st_pages import Page, show_pages, add_page_title
 import os
+
 st.set_page_config(
     page_title="Auto ML and DS",
     page_icon="https://cdn-icons-png.flaticon.com/128/4616/4616734.png",
@@ -32,16 +33,19 @@ if os.path.exists("./dataset.csv"):
 st.title("Visualization!!")
 
 # corr
+try:
+    corr = df.corr()
+    fig = px.imshow(
+        corr,
+        text_auto=True,
+        aspect="auto",
+        color_continuous_scale="RdBu",
+        title="Correlation Heatmap",
+    )
+    st.plotly_chart(fig)
+except Exception as e:
+    st.write("error during the correlation matrix, make sure you choose everything correct")
 
-corr = df.corr()
-fig = px.imshow(
-    corr,
-    text_auto=True,
-    aspect="auto",
-    color_continuous_scale="RdBu",
-    title="Correlation Heatmap",
-)
-st.plotly_chart(fig)
 
 # pie chart
 if st.session_state.classification:
