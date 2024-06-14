@@ -94,16 +94,15 @@ if (file and not data_choice) or (not file and data_choice):
                 else 0
             ),
         )
-        st.info("it's very important to convert the non-numerical (text) to numbers so that we can visualize the data and build the model correctly")
-        st.write("Select non-numerical columns (0 or more):")
-        selected_columns = st.multiselect("non-Numerical Columns", df.columns.tolist())
-        if selected_columns:
-            le = LabelEncoder()
-            for col in selected_columns:
-                df[col] = le.fit_transform(df[col])
-            if any(df.dtypes == 'object'):
-                st.warning("Choose ALL the non-numerical!!!")
-            st.dataframe(df)
+        st.write("after converting the non-numerical to numerical")
+        st.write("let's show the first 5 rows of the updated dataset")
+        objects_left=df.select_dtypes(include=['object']).columns.tolist()
+        le = LabelEncoder()
+        for col in objects_left:
+            
+            df[col] = le.fit_transform(df[col])
+         
+        st.dataframe(df.head())
             
                 
         
