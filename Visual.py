@@ -1,6 +1,6 @@
 
 import streamlit as st  
-import plotly_express as px 
+import plotly.express as px 
 import pandas as pd
 import matplotlib as plt
 from st_pages import Page, show_pages, add_page_title

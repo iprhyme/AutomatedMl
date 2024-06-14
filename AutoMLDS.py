@@ -101,9 +101,10 @@ if (file and not data_choice) or (not file and data_choice):
             le = LabelEncoder()
             for col in selected_columns:
                 df[col] = le.fit_transform(df[col])
-            st.dataframe(df)
             if any(df.dtypes == 'object'):
                 st.warning("Choose ALL the non-numerical!!!")
+            st.dataframe(df)
+            
                 
         
         df.to_csv("dataset.csv", index=None)
